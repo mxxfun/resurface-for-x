@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resurface for X</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── Header ─────────────────────────────────── -->
+    <header class="header">
+      <div class="header-brand">
+        <div class="logo">
+          <img src="../icons/icon48.png" width="20" height="20" alt="Resurface logo">
+        </div>
+        <h1>Resurface</h1>
+      </div>
+      <div class="header-right">
+        <nav class="nav-tabs">
+          <button class="nav-tab active" data-tab="home" id="tab-btn-home">Recall</button>
+          <button class="nav-tab" data-tab="bookmarks" id="tab-btn-bookmarks">Library</button>
+        </nav>
+        <button id="settings-btn" class="icon-btn" title="Settings" aria-label="Open settings">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- ── Main: Recall Tab ────────────────────────── -->
+    <main class="tab-content active" id="tab-home">
+
+      <!-- Onboarding (shown when 0 bookmarks) -->
+      <div class="onboarding" id="onboarding">
+        <p class="onboarding-title">How it works</p>
+        <div class="how-steps">
+          <div class="how-step">
+            <div class="how-step-icon step-save">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="how-step-body">
+              <span class="how-step-title">Bookmark on X</span>
+              <span class="how-step-desc">Hit the bookmark icon on any post. Resurface captures it silently.</span>
+            </div>
+          </div>
+          <div class="how-step-connector"></div>
+          <div class="how-step">
+            <div class="how-step-icon step-resurface">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="17 11 12 6 7 11"/>
+                <polyline points="17 18 12 13 7 18"/>
+              </svg>
+            </div>
+            <div class="how-step-body">
+              <span class="how-step-title">They resurface in your feed</span>
+              <span class="how-step-desc">Forgotten posts appear inline as you scroll, right when you'd appreciate them.</span>
+            </div>
+          </div>
+          <div class="how-step-connector"></div>
+          <div class="how-step">
+            <div class="how-step-icon step-recall">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+            </div>
+            <div class="how-step-body">
+              <span class="how-step-title">Revisit & mark read</span>
+              <span class="how-step-desc">Open the post, mark it done. Resurface uses spaced repetition so nothing stays forgotten.</span>
+            </div>
+          </div>
+        </div>
+        <p class="onboarding-cta">Go to <strong>x.com</strong> and bookmark a post to get started.</p>
+      </div>
+
+      <!-- Active state (shown when bookmarks exist) -->
+      <div class="recall-view" id="recall-view" style="display:none">
+        <!-- Stats row -->
+        <div class="stats-row">
+          <div class="stat-item">
+            <span class="stat-val" id="stat-total">0</span>
+            <span class="stat-lbl">saved</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-val stat-warn" id="stat-unrecalled">0</span>
+            <span class="stat-lbl">to revisit</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-val stat-streak" id="stat-streak">0</span>
+            <span class="stat-lbl">day streak</span>
+          </div>
+        </div>
+
+        <!-- Recall card -->
+        <div class="recall-section">
+          <div class="recall-card" id="recall-card">
+            <div class="recall-empty-state">
+              <div class="recall-up-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="17 11 12 6 7 11"/>
+                  <polyline points="17 18 12 13 7 18"/>
+                </svg>
+              </div>
+              <p>Resurface a forgotten bookmark</p>
+            </div>
+          </div>
+          <button id="recall-btn" class="recall-btn" disabled>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"/>
+              <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+            </svg>
+            Resurface one
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <!-- ── Bookmarks Tab ───────────────────────────── -->
+    <main class="tab-content" id="tab-bookmarks">
+      <div class="bookmarks-header">
+        <div class="bookmarks-search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="search-input" placeholder="Search bookmarks…" />
+        </div>
+        <div class="bookmarks-filter">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="unread">Unread</button>
+          <button class="filter-btn" data-filter="read">Read</button>
+        </div>
+      </div>
+      <div id="bookmarks-list" class="bookmarks-list">
+        <div class="empty-state">
+          <div class="empty-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+          </div>
+          <p>No bookmarks yet</p>
+          <p class="empty-hint">Bookmark posts on X to get started</p>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ── Settings Drawer ─────────────────────────── -->
+  <div id="settings-overlay" class="settings-overlay"></div>
+  <aside id="settings-drawer" class="settings-drawer">
+    <div class="drawer-header">
+      <span class="drawer-title">Settings</span>
+      <button id="settings-close" class="icon-btn" aria-label="Close settings">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Resurfacing -->
+      <div class="drawer-section">
+        <p class="drawer-section-title">Resurfacing</p>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-name">Inline cards</span>
+            <span class="setting-desc">Show forgotten bookmarks in your X timeline</span>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-ghost" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-name">Frequency</span>
+            <span class="setting-desc">Show a card every <strong id="freq-display">5</strong> posts</span>
+          </div>
+          <div class="setting-stepper">
+            <button class="stepper-btn" data-action="decrease" data-target="setting-frequency">−</button>
+            <span class="stepper-value" id="setting-frequency">5</span>
+            <button class="stepper-btn" data-action="increase" data-target="setting-frequency">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notifications -->
+      <div class="drawer-section">
+        <p class="drawer-section-title">Notifications</p>
+        <div class="setting-item">
+          <div class="setting-info">
+            <span class="setting-name">Push reminders</span>
+            <span class="setting-desc">Get notified about forgotten bookmarks</span>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="setting-notifications" checked>
+            <span class="toggle-slider"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Recall Mode -->
+      <div class="drawer-section">
+        <p class="drawer-section-title">Recall order</p>
+        <div class="recall-modes">
+          <label class="mode-option active" data-mode="spaced">
+            <input type="radio" name="recallMode" value="spaced" checked>
+            <div class="mode-card">
+              <span class="mode-name">Spaced</span>
+              <span class="mode-desc">Smart intervals</span>
+            </div>
+          </label>
+          <label class="mode-option" data-mode="random">
+            <input type="radio" name="recallMode" value="random">
+            <div class="mode-card">
+              <span class="mode-name">Random</span>
+              <span class="mode-desc">Surprise me</span>
+            </div>
+          </label>
+          <label class="mode-option" data-mode="oldest">
+            <input type="radio" name="recallMode" value="oldest">
+            <div class="mode-card">
+              <span class="mode-name">Oldest</span>
+              <span class="mode-desc">FIFO order</span>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="drawer-section">
+        <p class="drawer-section-title">Data</p>
+        <button id="clear-all-btn" class="danger-btn">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+          Clear all bookmarks
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <script src="popup.js"></script>
+</body>
+</html>

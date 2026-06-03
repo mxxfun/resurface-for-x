@@ -1,0 +1,271 @@
+/* Resurface — Content Script Styles */
+/* Inline recall cards & save toast injected into X/Twitter */
+
+/* ─── Save Toast ────────────────────────────────────── */
+.resurface-save-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  background: #111111;
+  color: #f0f0f0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 16px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  z-index: 99999;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid #2e2e2e;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
+}
+
+.resurface-save-toast .resurface-toast-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #7c6cf8;
+  flex-shrink: 0;
+}
+
+.resurface-save-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ─── Ghost Card ────────────────────────────────────── */
+.resurface-ghost-card {
+  display: block;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 16px;
+  margin: 0;
+  z-index: 10;
+  animation: resurfaceAppear 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes resurfaceAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.resurface-ghost-inner {
+  position: relative;
+  background: #111111;
+  border: 1px solid #2a2a2a;
+  border-radius: 14px;
+  padding: 14px 16px;
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.resurface-ghost-inner:hover {
+  border-color: #3a3a3a;
+}
+
+/* Subtle left accent bar */
+.resurface-ghost-inner::before {
+  content: '';
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 2px;
+  height: calc(100% - 28px);
+  background: #7c6cf8;
+  border-radius: 0 2px 2px 0;
+  opacity: 0.7;
+}
+
+/* Header */
+.resurface-ghost-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.resurface-ghost-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: #7c6cf8;
+  flex-shrink: 0;
+}
+
+.resurface-ghost-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  min-width: 0;
+}
+
+.resurface-ghost-tag {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7c6cf8;
+}
+
+.resurface-ghost-age {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+  color: #555555;
+}
+
+.resurface-ghost-dismiss {
+  background: none;
+  border: none;
+  color: #555555;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+  padding: 0;
+}
+
+.resurface-ghost-dismiss:hover {
+  background: rgba(255,255,255,0.06);
+  color: #888888;
+}
+
+/* Body */
+.resurface-ghost-body {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.resurface-ghost-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
+}
+
+.resurface-ghost-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.resurface-ghost-author {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f0f0f0;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.resurface-ghost-handle {
+  color: #555555;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.resurface-ghost-text {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #a0a0a0;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Actions */
+.resurface-ghost-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.resurface-ghost-btn {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: opacity 0.15s, background 0.15s;
+  text-decoration: none;
+}
+
+.resurface-ghost-btn-primary {
+  background: #7c6cf8;
+  color: #fff;
+}
+
+.resurface-ghost-btn-primary:hover {
+  opacity: 0.9;
+}
+
+.resurface-ghost-btn-secondary {
+  background: #1a1a1a;
+  color: #888888;
+  border: 1px solid #2e2e2e;
+}
+
+.resurface-ghost-btn-secondary:hover {
+  background: #222222;
+  color: #aaaaaa;
+}
+
+/* Dismiss & Recall animations */
+.resurface-ghost-dismissed {
+  animation: resurfaceDismiss 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes resurfaceDismiss {
+  to {
+    opacity: 0;
+    transform: translateX(20px);
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+}
+
+.resurface-ghost-recalled {
+  animation: resurfaceRecalled 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes resurfaceRecalled {
+  0%   { opacity: 1; }
+  40%  { opacity: 0.5; }
+  100% {
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+}
