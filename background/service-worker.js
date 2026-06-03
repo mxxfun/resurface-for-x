@@ -192,28 +192,36 @@ async function getRecallBookmark(mode = 'spaced') {
 
   switch (mode) {
     case 'spaced': {
-      // Get bookmarks due for recall (next recall time has passed)
-      const due = bookmarks.filter(b => now >= b.nextRecallAt);
+      // Only consider bookmarks not permanently dismissed:
+      // - never recalled yet, OR due for a spaced-repetition re-review
+      const candidates = bookmarks.filter(b => !b.recalled || now >= b.nextRecallAt);
+      if (candidates.length === 0) return null;
+
+      // Prefer bookmarks whose next recall time has already passed
+      const due = candidates.filter(b => now >= b.nextRecallAt);
       if (due.length > 0) {
-        // Sort by oldest nextRecallAt first
+        // Sort by oldest nextRecallAt first (most overdue first)
         due.sort((a, b) => a.nextRecallAt - b.nextRecallAt);
         return due[0];
       }
-      // Fallback to most forgotten (oldest savedAt, never recalled)
-      const unrecalled = bookmarks.filter(b => b.recallCount === 0);
+      // Fallback: most forgotten (never recalled, oldest saved)
+      const unrecalled = candidates.filter(b => b.recallCount === 0);
       if (unrecalled.length > 0) {
         unrecalled.sort((a, b) => a.savedAt - b.savedAt);
         return unrecalled[0];
       }
-      return bookmarks[Math.floor(Math.random() * bookmarks.length)];
+      return candidates[Math.floor(Math.random() * candidates.length)];
     }
     case 'oldest': {
       const sorted = [...bookmarks].sort((a, b) => a.savedAt - b.savedAt);
-      return sorted.find(b => !b.recalled) || sorted[0];
+      return sorted.find(b => !b.recalled) || null;
     }
     case 'random':
-    default:
-      return bookmarks[Math.floor(Math.random() * bookmarks.length)];
+    default: {
+      const eligible = bookmarks.filter(b => !b.recalled);
+      if (eligible.length === 0) return null;
+      return eligible[Math.floor(Math.random() * eligible.length)];
+    }
   }
 }
 

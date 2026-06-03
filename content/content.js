@@ -77,7 +77,20 @@
 
       // Extract tweet text
       const textEl = article.querySelector('[data-testid="tweetText"]');
-      const text = textEl ? textEl.textContent : '';
+      let text = textEl ? textEl.textContent.trim() : '';
+
+      // If tweet has no body text, try to extract the article/link card preview
+      if (!text) {
+        const cardWrapper = article.querySelector('[data-testid="card.wrapper"]');
+        if (cardWrapper) {
+          // Article title lives in a span inside the card
+          const cardTitle = cardWrapper.querySelector('[data-testid="card.layoutLarge.title"], [data-testid="card.layoutSmall.title"]');
+          const cardDesc  = cardWrapper.querySelector('[data-testid="card.layoutLarge.detail"], [data-testid="card.layoutSmall.detail"]');
+          const titleText = cardTitle ? cardTitle.textContent.trim() : '';
+          const descText  = cardDesc  ? cardDesc.textContent.trim()  : '';
+          text = [titleText, descText].filter(Boolean).join(' — ');
+        }
+      }
 
       // Extract timestamp
       const timestamp = timeEl ? timeEl.getAttribute('datetime') : new Date().toISOString();
@@ -223,6 +236,8 @@
     // Event listeners
     wrapper.querySelector('.resurface-ghost-dismiss').addEventListener('click', (e) => {
       e.stopPropagation();
+      // Advance the spaced-repetition interval so this post isn't re-shown immediately
+      chrome.runtime.sendMessage({ type: 'DEWEY_MARK_RECALLED', id: bookmark.id });
       wrapper.classList.add('resurface-ghost-dismissed');
       setTimeout(() => wrapper.remove(), 400);
     });
