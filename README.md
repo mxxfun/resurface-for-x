@@ -108,4 +108,4 @@ This project is source-available under the [Business Source License 1.1](LICENSE
 - ❌ Commercial use requires a separate license from the author
 - 🔓 Converts to [MIT](https://opensource.org/licenses/MIT) on **January 1, 2030**
 
-© 2024 [mxxfun](https://github.com/mxxfun). All rights reserved.
+© 2026 [mxxfun](https://github.com/mxxfun). All rights reserved.
