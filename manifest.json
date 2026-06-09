@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Resurface for X",
   "description": "Your forgotten bookmarks come back to haunt you. Never lose a saved tweet again.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "permissions": [
     "storage",
     "alarms",
