@@ -9,6 +9,7 @@
 </p>
 
 <p align="center">
+  <a href="https://chromewebstore.google.com/detail/resurface-for-x/bmhlicjfigdlajhpmbhgiendbglgchoe"><img src="https://img.shields.io/badge/Chrome_Web_Store-Install-4285F4?logo=googlechrome&logoColor=white" alt="Install from Chrome Web Store" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-BUSL--1.1-blueviolet" alt="License: BUSL-1.1" /></a>
   <img src="https://img.shields.io/badge/manifest-v3-blue" alt="Manifest v3" />
   <img src="https://img.shields.io/badge/platform-Chrome-yellow" alt="Chrome" />
@@ -68,7 +69,11 @@ Think of it as a second brain for your X bookmarks.
 
 ## Installation
 
-> The extension is not yet on the Chrome Web Store. Install it manually in developer mode.
+### Chrome Web Store
+
+Install [Resurface for X from the Chrome Web Store](https://chromewebstore.google.com/detail/resurface-for-x/bmhlicjfigdlajhpmbhgiendbglgchoe), then pin the extension and navigate to [x.com](https://x.com).
+
+### Manual install (developers)
 
 1. Clone or download this repository
 2. Open Chrome and go to `chrome://extensions`
